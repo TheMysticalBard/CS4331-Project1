@@ -1,0 +1,66 @@
+<html>
+  <title>VR Project - Parker Smyrl</title>
+  <head>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+  </head>
+  <body>
+      <script>
+        //This component is for adding a custom brick material I found. Needed so that I can have proper metalness and roughness maps, which a-frame doesn't support natively.
+        AFRAME.registerComponent('brick', {
+          init: function() {
+            //Loading the textures using three.js loaders.
+            var texture = new THREE.TextureLoader().load('assets/brick-material/textures/Brick_wall_baseColor.png');
+            var normal = new THREE.TextureLoader().load('assets/brick-material/textures/Brick_wall_normal.png');
+            var metallicRoughness = new THREE.TextureLoader().load('assets/brick-material/textures/Brick_wall_metallicRoughness.png');
+            //Set the textures to have repeat wrapping.
+            texture.wrapS = THREE.RepeatWrapping;
+            texture.wrapT = THREE.RepeatWrapping;
+            normal.wrapS = THREE.RepeatWrapping;
+            normal.wrapT = THREE.RepeatWrapping;
+            metallicRoughness.wrapS = THREE.RepeatWrapping;
+            metallicRoughness.wrapT = THREE.RepeatWrapping;
+            var el = this.el;
+            //Creating the three.js material that aframe normally uses.
+            var material = new THREE.MeshStandardMaterial({
+              map: texture,
+              metalnessMap: metallicRoughness,
+              normalMap: normal,
+              roughnessMap: metallicRoughness
+            })
+            //Setting the material of the object to the new, custom material.
+            el.getObject3D('mesh').material = material;
+          },
+          update: function() {
+            var el = this.el;
+            
+            //THIS IS NOT WORKING, going to try modifying the textures at the THREE.js level instead...
+            // var scale = el.getAttribute('scale');
+            // el.setAttribute('material', 'displacementTextureRepeat', `${scale.x} ${scale.y}`);
+            // el.setAttribute('material', 'repeat', `${scale.y} ${scale.y}`);
+            // console.log(scale);
+            // console.log(el.getAttribute('material'));
+            // console.log(el.object3DMap);
+            //This is different than getting the material attribute. Material attribute is a-frame's wrapped version, where this is the three.js material. This is necessary because as mentioned, a-frame doesn't allow for metalness and roughness maps, which are what I need to modify the scale of here.
+            var material = el.getObject3D('mesh').material;
+            var scale = el.getAttribute('scale');
+            material.map.repeat.set(scale.x, scale.y);
+            material.metalnessMap.repeat.set(scale.x, scale.y);
+            material.normalMap.repeat.set(scale.x, scale.y);
+            material.roughnessMap.repeat.set(scale.x, scale.y);
+          }
+        });
+      </script>
+    <a-scene stats fog='type: linear; color:#222; far:45'>
+      <a-entity id='player' wasd-controls='acceleration:130' look-controls='pointerLockEnabled:true' camera position='0 2 0'>
+
+      </a-entity>
+      <a-plane position="0 1 -1" scale='2 2 1' brick></a-plane>
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CA3C9"></a-box>
+      <a-sphere position="0 2.25 -5" radius="1.25" color="#AF0000"></a-sphere>
+      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" rotation="0 0 90" color="#FFC65D"></a-cylinder>
+      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#5BA854"></a-plane>
+      <a-sky color="#202020"></a-sky>
+    </a-scene>
+  </body>
+</html>
