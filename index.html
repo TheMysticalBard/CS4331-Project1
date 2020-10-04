@@ -52,15 +52,17 @@
         });
       </script>
     <a-scene stats fog='type: linear; color:#222; far:45'>
-      <a-entity id='player' wasd-controls='acceleration:130' look-controls='pointerLockEnabled:true' camera position='0 2 0'>
+      <a-entity id='player' wasd-controls look-controls='pointerLockEnabled:true' camera position='0 1.75 0'>
 
       </a-entity>
-      <a-plane position="0 1 -1" scale='2 2 1' brick></a-plane>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CA3C9"></a-box>
-      <a-sphere position="0 2.25 -5" radius="1.25" color="#AF0000"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" rotation="0 0 90" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#5BA854"></a-plane>
-      <a-sky color="#202020"></a-sky>
+      <a-plane position='0 2 -1.75' scale='3.25 4 1' brick></a-plane>
+      <a-plane position='1.625 2 0' scale='3.5 4 1' rotation='0 -90 0' brick></a-plane>
+      <a-plane position='-1.625 2 0' scale='3.5 4 1' rotation='0 90 0' brick></a-plane>
+      <a-plane position='0 2 1.75' scale='3.25 4 1' rotation='0 180 0' brick></a-plane>
+      <a-plane position='0 0 0' scale='3.25 3.5 1' rotation='-90 0 0'></a-plane>
+      <a-plane position='0 4 0' scale='3.25 3.5 1' rotation='90 0 0'></a-plane>
+      <a-plane position='-0.89 1 -0.75' scale='1.47 2 1' rotation='-90' material='color: gray'></a-plane>
+      <a-sky color='#202020'></a-sky>
     </a-scene>
   </body>
 </html>
